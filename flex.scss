@@ -1,0 +1,39 @@
+.flex {
+    display:flex;
+}
+
+.wrap {
+    flex-wrap:wrap;
+}
+
+.nowrap {
+    flex-wrap:nowrap;
+}
+
+.wrap-reverse {
+    flex-wrap:wrap-reverse;
+}
+
+.flex-dir-col {
+    flex-direction: column;
+}
+
+.flex-dir-row {
+    flex-direction: row;
+}
+
+.flex-dir-col-rev {
+    flex-direction: column-reverse;
+}
+
+.flex-dir-row-rev {
+    flex-direction: row-reverse;
+}
+
+@include listProperties($jContents, justify-content, "jc");
+@include listProperties($jContents, align-content, "ac");
+@include listProperties($jContents, align-items, "ai");
+
+@include loopProperties(50, 1000, 25, flex-basis, "flex-basis");
+@include loopProperties(1, 12, 1, flex-grow, "flex-grow", "");
+@include loopProperties(1, 24, 1, order, "flex-order", "");

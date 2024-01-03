@@ -1,0 +1,145 @@
+/*
+Készitettünk egy grid-et 
+az i megy 2-től 12-ig 
+készíteni fog 11 grid class-t, attól függően, hogy mennyi az i értéke 
+az első lesz .grid-2-xl utána .grid-3-xl....
+mindegyik display grid lesz 
+grid-template-columns (repeat ) megkapja első paraméternek az i-t, második paraméter mindig 1 fr -> 
+ez azt csinálja, hogy, mindig egyenlő részre, fogja felosztani a területet, attól függően, hogy mennyi az i értéke 
+első esetben .grid-2-xl -> 2 ugyanakkora részre fogja felosztani a képernyő szélességét
+utolsó esetben .grid-12-xl -> 12 ugyanakkora részre fogja felosztani a képernyőt 
+
+media screen and (max-width:map-get($sizes, "width-lg"))
+itt azt csináljuk, hogy húzzuk befele a képernyőt és ha elér egy bizonyos szélességet (ezt a szélességet meghatároztuk egy sizes map-ban 
+amit ide bekérünk az egyik értékét), akkor ha eléri ezt a szélességet akkor utána display:block miatt a bemennek egymás alá 
+*/
+
+@for $i from 2 through 12 {
+    .grid-#{$i}-xl {
+        display:grid;
+        grid-template-columns: repeat($i, 1fr);
+
+        @media screen and (max-width:map-get($sizes, "width-lg")) {
+            display:block;
+        }
+    }
+
+    /*ugyanaz, mint fent, csak itt kisebb pixelnél fognak bemenni egymás alá "boxok"*/
+    .grid-#{$i}-lg {
+        display:grid;
+        grid-template-columns: repeat($i, 1fr);
+
+        @media screen and (max-width:map-get($sizes, "width-md")) {
+            display:block;
+        }
+    }
+
+    .grid-#{$i}-md {
+        display:grid;
+        grid-template-columns: repeat($i, 1fr);
+
+        @media screen and (max-width:map-get($sizes, "width-sm")) {
+            display:block;
+        }
+    }
+
+    .grid-#{$i}-sm {
+        display:grid;
+        grid-template-columns: repeat($i, 1fr);
+
+        @media screen and (max-width:map-get($sizes, "width-xs")) {
+            display:block;
+        }
+    }
+
+    .grid-#{$i}-xs {
+        display:grid;
+        grid-template-columns: repeat($i, 1fr);
+    }
+}
+
+.gap-xl {
+    grid-gap:max(3vw, map-get($spaces, "xl"));
+}
+
+.gap-lg {
+    grid-gap:max(2vw, map-get($spaces, "lg"));
+}
+
+.gap-md {
+    grid-gap:max(1.5vw, map-get($spaces, "md"));
+}
+
+.gap-sm {
+    grid-gap:max(1vw, map-get($spaces, "sm"));
+}
+
+.row {
+    display:flex;
+    flex-wrap:wrap;
+}
+
+/*
+These classes are intended to create responsive columns for a layout, adjusting the width based on the specified breakpoints.
+
+The @for loop generates classes .col-lg-2 through .col-lg-12.
+Each generated class has a width property set based on the formula calc(100% / 12 * $i). 
+This formula calculates the width based on the total width available (100%) divided by 12 columns multiplied by the specific $i value in the loop. 
+For example, .col-lg-2 will be 16.6667% wide (100% / 12 * 2).
+
+The !important declaration gives these width rules higher specificity, which means they will override other width rules that don't use !important.
+
+Inside a @media query with a maximum width of 1200px, the width for all classes .col-lg-#{$i} is set to 100%. 
+This ensures that at or below this screen width, the columns will occupy the full width of their container.
+*/
+@for $i from 2 through 12 {
+    .col-lg-#{$i} {
+        width:calc(100%/12 * $i)!important;/*meghatározzuk, hogy milyen széles legyen egy ó*/
+
+        @media screen and (max-width:1200px) {
+            width:100%; /*1200px alatt a szélesség felveszi a képernyő 100%-át*/
+        }
+    }
+}
+
+@for $i from 2 through 12 {
+    .col-md-#{$i} {
+        width:calc(100%/12 * $i);
+
+        @media screen and (max-width:1200px) {
+            width:calc(100%/12 * $i)!important;
+        }
+
+        @media screen and (max-width:1080px) {
+            width:100%;
+        }
+    }
+}
+
+@for $i from 2 through 12 {
+    .col-sm-#{$i} {
+        width:calc(100%/12 * $i);
+
+        @media screen and (max-width:1080px) {
+            width:calc(100%/12 * $i)!important;
+        }
+
+        @media screen and (max-width:800px) {
+            width:100%;
+        }
+    }
+}
+
+@for $i from 2 through 12 {
+    .col-xs-#{$i} {
+        width:calc(100%/12 * $i);
+
+        @media screen and (max-width:800px) {
+            width:calc(100%/12 * $i)!important;
+        }
+
+        @media screen and (max-width:600px) {
+            width:100%;
+        }
+    }
+}

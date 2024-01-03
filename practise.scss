@@ -1,0 +1,99 @@
+/*csak 11-ig megy el a for ciklus*/
+@for $i from 1 to 12 {
+
+}
+/*12-ig megy el a for ciklus*/
+@for $i from 1 through 12 {
+
+}
+
+/*csináltunk egy map-ot, olyan mint JavaScriptben a objektum*/
+$sizes:(
+    "xs":100px,
+    "sm":250px,
+    "md":400px,
+    "lg":550px,
+    "xl":700px
+);
+
+/*each, olyan, mint JavaScriptben a for of*/
+@each $size in $sizes {
+    @debug $size;
+}
+
+/*
+ugyanazt csinálja mint az elöbbi 
+így meg tudjuk kapni a kulcsokat és az értékeket a sizes mapból*/
+@each $key, $value in $sizes {
+    @debug $key + " - " + $value;
+}
+
+/*
+a map-get-vel tudunk egy értéket kivenni a mapból
+két paramétert fogad ->
+1. paraméter a map amiből szeretnénk kivenni az értéket 
+2. paraméter a kulcs, amit ki szeretnénk venni 
+*/
+$xs:map-get($sizes, "xs");
+/*
+a map-merge-vel tudunk hozzáadni egy értékpárt a maphoz 
+két paramétert fogad
+1. paraméter a map, amihez, hozzászeretnénk adni a kulcsértékpárt
+2. paraméter a kulcsértékpár zárójelben, amit hozzá szeretnénk adni*/
+$sizes:map-merge($sizes, ("xxl":950px));
+
+/*map-keys-vel tudjuk kiszedni a kulcsokat a mapból*/
+$keys:map-keys($sizes);
+
+/*map-values-val tudjuk kiszedni az értékeket a mapból */
+$values:map-values($sizes);
+
+
+/*
+for-val is ki tudjuk szedni az értékeket a mapból, ugyanugy, mint az each-vel 
+*/
+@for $i from 1 through length($keys) { /*meg adjuk, hogy mettöl meddig menjen a for, fontos itt egytől kezdünk, nem nullától length($keys)-ig!!*/
+    @debug map-get($sizes, nth($keys, $i));/*az nth-val tudjuk az értékeket kiszedni*/
+}
+
+//@debug $sizes;
+
+//placeholder selector
+
+/*
+csináltunk egy sima square-t és azt szeretnénk, hogy ennek az értékeit más is megkapja, hogy ne kelljen mindig ezeket kiírni
+*/
+%square {
+    width:250px;
+    height:250px;
+}
+.square-blue {
+    @extend %square; /*!!!!!extend-vel tudjuk ide bekérni a square-nek az értékeit és hozzáadni, amit még szeretnénk*/
+    background-color:blue;
+}
+.square-red {
+    @extend %square;
+    background-color:red;
+}
+
+/*
+mixin, olyan mint egy függvény, vár paramétereket amit, majd hozzáadunk egy bizonyos tulajdonságához
+pl. itt megadtuk a $size-ot paraméterként és width-hez hozzárendeljük ezt a size-ot, amit majd késöbb "meghívásnál" megadunk egy értéket
+*/
+@mixin square-mixin($size, $color) {
+    width:$size;
+    height:$size;
+    background-color:$color;
+}
+
+/*
+létrehoztunk egy class-ot és az elöbb készített mixin-t itt fogjuk meghívni az include-val
+és megadjuk az értékeket, amiket szeretnénk neki megadni 
+*/
+.square-purple {
+    @include square-mixin(500px, purple);
+}
+
+.square-green {
+    @include square-mixin(400px, green);
+}

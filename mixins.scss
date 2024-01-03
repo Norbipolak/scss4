@@ -1,0 +1,44 @@
+/*
+loop-val azt szeretnénk, hogy csináljon nekünk egy adott property-re pl. margin különböző értékeket 
+ezt mindig a while!!!!!!!!!!!!!!
+3 dolgot kell megadni 
+2 értéket a while-nak (from-to), hogy mettől meddig menjen 
+step -> mennyivel növekedjen az értéke, amit hozzáadunk a from-hoz a végén és a from mindig azt az értéket fogja megkapni (from + step)
+pl.step 5 akkor és a from 10 akkor elöször 10 lesz a from, majd utána 15 lesz a from, majd 20, egészen addig, amig el nem éri a to értéket 
+className az lényegtelen pl. padding-nél lehet egy p betű 
+unit -> attól függően, hogy mit szeretnénk kiszámolni 
+*/
+
+@mixin loopProperties($from, $to, $step, $prop, $className, $unit:px) {
+    @while($from <= $to) {
+        .#{$className}-#{$from} {
+            #{$prop}:#{$from}#{$unit};
+        }
+        
+        $from:$from+$step;
+    }
+}
+
+@mixin listProperties($list, $prop, $className) {
+    @each $el in $list {
+        .#{$className}-#{$el} {
+            #{$prop}:#{$el};
+        }
+    }
+}
+
+@mixin mapProperties($map, $prop, $className) {
+    @each $key, $value in $map {
+        .#{$className}-#{$key} {
+            #{$prop}:#{$value};
+        }
+    }
+}
+
+@mixin minProperties($map, $prop, $vw, $className) {
+    @each $key, $value in $map {
+        .#{$className}-#{$key} {
+            #{$prop}:min($vw, #{$value});
+        }
+    }
+}
